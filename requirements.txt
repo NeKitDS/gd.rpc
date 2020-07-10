@@ -1,2 +1,2 @@
-gd.py>=1.0.0a0
+gd.py>=1.0.0b0
 pypresence>=4.0.0
