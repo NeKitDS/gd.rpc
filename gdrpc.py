@@ -2,7 +2,7 @@ __title__ = "gdrpc"
 __author__ = "NeKitDS"
 __copyright__ = "Copyright 2020 NeKitDS"
 __license__ = "MIT"
-__version__ = "0.2.4"
+__version__ = "0.2.5"
 
 import time
 
@@ -120,7 +120,7 @@ async def main_loop() -> None:
         state = f"by {level_creator} ({current_percent}%, best {best_record}%)"
 
         small_image = get_image(level_difficulty, level)
-        small_text = f"{level_stars}* {level_difficulty}"
+        small_text = f"{level_stars}* {level_difficulty.title}"
 
     await presence.update(
         pid=memory.process_id,
