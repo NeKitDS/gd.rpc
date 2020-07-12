@@ -80,7 +80,7 @@ You can build an executable file from the ``gdrpc.py`` file using *pyinstaller*:
 
 .. code:: sh
 
-    $ pyinstaller --onefile --exclude-module Pillow --exclude-module numpy --exclude-module IPython --exclude-module pycryptodome --exclude-module lxml --icon=gdrpc.ico gdrpc.py
+    $ pyinstaller --onefile --exclude-module PIL --exclude-module numpy --exclude-module IPython --exclude-module Crypto --exclude-module lxml --icon=gdrpc.ico gdrpc.py
 
 Generated executable will be in ``./dist`` folder.
 
