@@ -2,7 +2,7 @@ __title__ = "gdrpc"
 __author__ = "NeKitDS"
 __copyright__ = "Copyright 2020 NeKitDS"
 __license__ = "MIT"
-__version__ = "0.2.5"
+__version__ = "0.2.6"
 
 import time
 
@@ -89,7 +89,11 @@ async def main_loop() -> None:
     else:
 
         current_percent = memory.get_percent()
-        best_record = memory.get_normal_percent()
+        best_normal = memory.get_normal_percent()
+        best_practice = memory.get_practice_percent()
+
+        mode = "practice" if memory.is_practice_mode() else "normal"
+
         gamemode = memory.get_gamemode()
 
         level_id = memory.get_level_id()
@@ -117,8 +121,10 @@ async def main_loop() -> None:
             typeof = "online"
 
         details = f"{level_name} ({typeof}) <{gamemode.name.lower()}>"
-        state = f"by {level_creator} ({current_percent}%, best {best_record}%)"
-
+        state = (
+            f"by {level_creator} ({mode} "
+            f"{current_percent}%, best {best_normal}% / {best_practice}%)"
+        )
         small_image = get_image(level_difficulty, level)
         small_text = f"{level_stars}* {level_difficulty.title}"
 
