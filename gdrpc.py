@@ -123,7 +123,7 @@ async def main_loop() -> None:
         details = f"{level_name} ({typeof}) <{gamemode.name.lower()}>"
         state = (
             f"by {level_creator} ({mode} "
-            f"{current_percent}%, best {best_normal}% / {best_practice}%)"
+            f"{current_percent}%, best {best_normal}%/{best_practice}%)"
         )
         small_image = get_image(level_difficulty, level)
         small_text = f"{level_stars}* {level_difficulty.title}"
