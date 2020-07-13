@@ -1,15 +1,19 @@
 from pathlib import Path
 import re
 
-from setuptools import setup
+from setuptools import setup  # type: ignore  # no stubs or types
 
 root = Path(__file__).parent
 
-requirements = (root / "requirements.txt").read_text("utf-8").strip().splitlines()
+requirements = (
+    (root / "requirements.txt").read_text("utf-8").strip().splitlines()
+)
 
 init = (root / "gdrpc.py").read_text("utf-8")
 
-result = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', init, re.MULTILINE)
+result = re.search(
+    r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', init, re.MULTILINE
+)
 
 if result is None:
     raise RuntimeError("Failed to find version.")
@@ -24,7 +28,9 @@ setup(
     author="NeKitDS",
     author_email="gdpy13@gmail.com",
     url="https://github.com/NeKitDS/gd.rpc",
-    project_urls={"Issue tracker": "https://github.com/NeKitDS/gd.rpc/issues",},
+    project_urls={
+        "Issue tracker": "https://github.com/NeKitDS/gd.rpc/issues",
+    },
     version=version,
     py_modules=["gdrpc"],
     license="MIT",

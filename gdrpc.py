@@ -2,12 +2,12 @@ __title__ = "gdrpc"
 __author__ = "NeKitDS"
 __copyright__ = "Copyright 2020 NeKitDS"
 __license__ = "MIT"
-__version__ = "0.2.7"
+__version__ = "0.2.8"
 
 import time
 
-import gd
-import pypresence
+import gd  # type: ignore  # no stubs or types
+import pypresence  # type: ignore  # no stubs or types
 
 
 def get_timestamp() -> int:
@@ -15,8 +15,6 @@ def get_timestamp() -> int:
 
 
 CLIENT_ID = 704721375050334300
-GD_PROCESS = "GeometryDash.exe"
-LOOP = gd.utils.acquire_loop()
 MESSAGES = {
     gd.memory.Scene.MAIN: "Idle",
     gd.memory.Scene.SELECT: "Selecting level",
@@ -28,10 +26,8 @@ MESSAGES = {
 }
 START = get_timestamp()
 
-
-client = gd.Client(loop=LOOP)
-memory = gd.memory.Memory(GD_PROCESS)
-presence = pypresence.AioPresence(str(CLIENT_ID), loop=LOOP)
+memory = gd.memory.get_memory(load=False)
+presence = pypresence.AioPresence(str(CLIENT_ID))
 
 
 def get_image(
@@ -50,7 +46,7 @@ def get_image(
     return "-".join(parts)
 
 
-@gd.tasks.loop(seconds=1, loop=LOOP)
+@gd.tasks.loop(seconds=1, loop=presence.loop)
 async def main_loop() -> None:
     global START
 
@@ -66,6 +62,10 @@ async def main_loop() -> None:
 
     if not name:
         name = "Player"
+
+    # annotations for mypy
+    details: gd.typing.Optional[str]
+    state: gd.typing.Optional[str]
 
     scene = memory.get_scene()
     level_type = memory.get_level_type()
@@ -106,8 +106,8 @@ async def main_loop() -> None:
         is_featured = memory.is_level_featured()
         is_epic = memory.is_level_epic()
 
-        if level_type == gd.api.LevelType.OFFICIAL:
-            level = gd.Level.official(level_id, get_data=False, client=client)
+        if level_type is gd.api.LevelType.OFFICIAL:
+            level = gd.Level.official(level_id, get_data=False)
 
             level_difficulty = level.difficulty
             level_creator = level.creator.name
@@ -116,7 +116,7 @@ async def main_loop() -> None:
 
             typeof = "official"
 
-        elif level_type == gd.api.LevelType.EDITOR:
+        elif level_type is gd.api.LevelType.EDITOR:
             typeof = "editor"
 
         else:
@@ -128,7 +128,9 @@ async def main_loop() -> None:
             f"{current_percent}%, best {best_normal}%/{best_practice}%)"
         )
         small_image = get_image(level_difficulty, is_featured, is_epic)
-        small_text = f"{level_stars}* {level_difficulty.title} (ID: {level_id})"
+        small_text = (
+            f"{level_stars}* {level_difficulty.title} (ID: {level_id})"
+        )
 
     await presence.update(
         pid=memory.process_id,
@@ -142,23 +144,19 @@ async def main_loop() -> None:
     )
 
 
-async def connect() -> None:
-    await presence.connect()
-
-
 def run() -> None:
 
     print(f"Running gd.rpc v.{__version__}... Press [Ctrl + C] to stop.")
 
-    LOOP.run_until_complete(connect())
+    presence.loop.run_until_complete(presence.connect())
 
     main_loop.start()
 
     try:
-        LOOP.run_forever()
+        presence.loop.run_forever()
 
     except KeyboardInterrupt:
-        gd.utils.cancel_all_tasks(LOOP)
+        gd.utils.cancel_all_tasks(presence.loop)
         presence.close()
 
 
