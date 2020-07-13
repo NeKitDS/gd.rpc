@@ -36,14 +36,15 @@ presence = pypresence.AioPresence(str(CLIENT_ID), loop=LOOP)
 
 def get_image(
     difficulty: gd.typing.Union[gd.DemonDifficulty, gd.LevelDifficulty],
-    level: gd.Level,
+    is_featured: bool = False,
+    is_epic: bool = False,
 ) -> str:
     parts = difficulty.name.lower().split("_")
 
-    if level.is_epic():
+    if is_epic:
         parts.append("epic")
 
-    elif level.is_featured():
+    elif is_featured:
         parts.append("featured")
 
     return "-".join(parts)
@@ -102,22 +103,23 @@ async def main_loop() -> None:
         level_difficulty = memory.get_level_difficulty()
         level_stars = memory.get_level_stars()
 
+        is_featured = memory.is_level_featured()
+        is_epic = memory.is_level_epic()
+
         if level_type == gd.api.LevelType.OFFICIAL:
-            level = gd.Level.official(level_id, client=client)
+            level = gd.Level.official(level_id, get_data=False, client=client)
+
             level_difficulty = level.difficulty
             level_creator = level.creator.name
+            is_featured = level.is_featured()
+            is_epic = level.is_epic()
+
             typeof = "official"
 
         elif level_type == gd.api.LevelType.EDITOR:
-            level = gd.Level(client=client)
             typeof = "editor"
 
         else:
-            try:
-                level = await client.get_level(level_id, get_data=False)
-            except Exception:  # uwu
-                level = gd.Level(id=level_id, client=client)
-
             typeof = "online"
 
         details = f"{level_name} ({typeof}) <{gamemode.name.lower()}>"
@@ -125,8 +127,8 @@ async def main_loop() -> None:
             f"by {level_creator} ({mode} "
             f"{current_percent}%, best {best_normal}%/{best_practice}%)"
         )
-        small_image = get_image(level_difficulty, level)
-        small_text = f"{level_stars}* {level_difficulty.title}"
+        small_image = get_image(level_difficulty, is_featured, is_epic)
+        small_text = f"{level_stars}* {level_difficulty.title} (ID: {level_id})"
 
     await presence.update(
         pid=memory.process_id,
@@ -154,6 +156,7 @@ def run() -> None:
 
     try:
         LOOP.run_forever()
+
     except KeyboardInterrupt:
         gd.utils.cancel_all_tasks(LOOP)
         presence.close()
