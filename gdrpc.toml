@@ -1,0 +1,50 @@
+[rpc]
+
+# general RPC setup
+
+refresh_rate = 1  # seconds between presence refreshing
+client_id = 704721375050334300  # client ID, change only if you are using your own version
+
+[rpc.editor]
+
+# these used when you are in the editor
+# available keys:
+# - level_name
+# - object_count
+# - user_name
+
+details = "Editing level"
+state = "{level_name} ({object_count} objects)"
+
+[rpc.level]
+
+# these are used when you are playing a level
+# available keys:
+# - percent (current)
+# - best_normal
+# - best_practice
+# - mode (normal or practice)
+# - gamemode (Cube, Ship, ...)
+# - level_id
+# - level_name
+# - level_creator
+# - level_difficulty (Easy, Normal, Hard, ...)
+# - level_stars
+# - level_type (official, editor, saved, online)
+
+details = "{level_name} ({level_type}) <{gamemode}>"
+state = "by {level_creator} ({mode} {percent}%, best {best_normal}%/{best_practice}%)"
+small_text = "{level_stars}* {level_difficulty} (ID: {level_id})"
+
+[rpc.scene]
+
+# these are used when you are not editing/playing anything
+
+main = "Idle"
+select = "Selecting level"
+editor_or_level = "Watching level info"
+search = "Searching levels"
+leaderboard = "Browsing leaderboards"
+online = "Online"
+official_levels = "Selecting official level"
+official_level = "Playing official level"

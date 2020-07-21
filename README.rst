@@ -14,7 +14,7 @@ gd.rpc
     :alt: Required Python Versions
 
 .. image:: https://img.shields.io/pypi/status/gd.rpc.svg
-    :target: https://github.com/NeKitDS/gd.rpc/
+    :target: https://github.com/NeKitDS/gd.rpc
     :alt: Project Development Status
 
 .. image:: https://img.shields.io/pypi/dm/gd.rpc.svg
@@ -27,9 +27,15 @@ gd.rpc
 
 gd.rpc is a library that implements GD Discord RPC in Python.
 
-.. image:: https://github.com/NeKitDS/gd.rpc/blob/master/showcase.png
-    :target: https://github.com/NeKitDS/gd.rpc/blob/master/showcase.png
+.. image:: ./showcase.png
+    :target: ./showcase.png
     :alt: Discord Example
+
+Config
+------
+
+The config file, ``gdrpc.toml`` is located in the same directory as ``gdrpc.py`` or ``gdrpc.exe`` file.
+It is created automatically on first run. For more details on how to configurate, there is a ``gdrpc.toml`` file located in the root of this repository that gives more information on arguments.
 
 Installing
 ----------
