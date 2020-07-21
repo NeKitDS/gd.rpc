@@ -2,7 +2,7 @@ __title__ = "gdrpc"
 __author__ = "NeKitDS"
 __copyright__ = "Copyright 2020 NeKitDS"
 __license__ = "MIT"
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 
 from pathlib import Path
 import time
@@ -38,7 +38,7 @@ official_levels = "Selecting official level"
 official_level = "Playing official level"
 """.lstrip()
 
-ROOT = Path(__file__).parent
+ROOT = Path(__file__).parent.resolve()
 PATH = ROOT / "gdrpc.toml"  # path to config
 
 
