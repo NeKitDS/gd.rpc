@@ -23,6 +23,7 @@ state = "{level_name} ({object_count} objects)"
 # - percent (current)
 # - best_normal
 # - best_practice
+# - attempt
 # - mode (normal or practice)
 # - gamemode (Cube, Ship, ...)
 # - level_id

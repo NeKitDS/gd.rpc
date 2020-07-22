@@ -2,7 +2,7 @@ __title__ = "gdrpc"
 __author__ = "NeKitDS"
 __copyright__ = "Copyright 2020 NeKitDS"
 __license__ = "MIT"
-__version__ = "0.3.1"
+__version__ = "0.3.2"
 
 from pathlib import Path
 import time
@@ -42,7 +42,7 @@ ROOT = Path(__file__).parent.resolve()
 PATH = ROOT / "gdrpc.toml"  # path to config
 
 
-if not Path(PATH).exists():  # if not exists -> create write default config
+if not PATH.exists():  # if not exists -> create write default config
     with open(PATH, "w") as file:
         file.write(DEFAULT_TOML)
 
@@ -148,6 +148,7 @@ async def main_loop() -> None:
     else:  # if playing some level
 
         percent = memory.get_percent()
+        attempt = memory.get_attempt()
         best_normal = memory.get_normal_percent()
         best_practice = memory.get_practice_percent()
 
@@ -185,6 +186,7 @@ async def main_loop() -> None:
             percent=percent,
             best_normal=best_normal,
             best_practice=best_practice,
+            attempt=attempt,
             mode=mode,
             gamemode=gamemode.title,
             level_id=level_id,
