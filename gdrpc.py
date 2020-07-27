@@ -2,7 +2,7 @@ __title__ = "gdrpc"
 __author__ = "NeKitDS"
 __copyright__ = "Copyright 2020 NeKitDS"
 __license__ = "MIT"
-__version__ = "0.3.2"
+__version__ = "0.4.0"
 
 from pathlib import Path
 import time
@@ -36,6 +36,28 @@ leaderboard = "Browsing leaderboards"
 online = "Online"
 official_levels = "Selecting official level"
 official_level = "Playing official level"
+
+[rpc.difficulty]
+easy = "Easy"
+normal = "Normal"
+hard = "Hard"
+harder = "Harder"
+insane = "Insane"
+demon = "Demon"
+easy_demon = "Easy Demon"
+medium_demon = "Medium Demon"
+hard_demon = "Hard Demon"
+insane_demon = "Insane Demon"
+extreme_demon = "Extreme Demon"
+
+[rpc.gamemode]
+cube = "Cube"
+ship = "Ship"
+ball = "Ball"
+ufo = "UFO"
+wave = "Wave"
+robot = "Robot"
+spider = "Spider"
 """.lstrip()
 
 ROOT = Path(__file__).parent.resolve()
@@ -188,11 +210,11 @@ async def main_loop() -> None:
             best_practice=best_practice,
             attempt=attempt,
             mode=mode,
-            gamemode=gamemode.title,
+            gamemode=rpc.gamemode.get(gamemode.name.lower()),
             level_id=level_id,
             level_name=level_name,
             level_creator=level_creator,
-            level_difficulty=level_difficulty.title,
+            level_difficulty=rpc.difficulty.get(level_difficulty.name.lower()),
             level_stars=level_stars,
             level_type=level_type,
         )

@@ -25,11 +25,11 @@ state = "{level_name} ({object_count} objects)"
 # - best_practice
 # - attempt
 # - mode (normal or practice)
-# - gamemode (Cube, Ship, ...)
+# - gamemode (see rpc.gamemode)
 # - level_id
 # - level_name
 # - level_creator
-# - level_difficulty (Easy, Normal, Hard, ...)
+# - level_difficulty (see rpc.difficulty)
 # - level_stars
 # - level_type (official, editor, saved, online)
 
@@ -49,3 +49,36 @@ leaderboard = "Browsing leaderboards"
 online = "Online"
 official_levels = "Selecting official level"
 official_level = "Playing official level"
+
+[rpc.difficulty]
+
+# these are used to display level difficulties
+
+unknown = "Unknown"
+easy = "Easy"
+normal = "Normal"
+hard = "Hard"
+harder = "Harder"
+insane = "Insane"
+demon = "Demon"
+
+# these are used to display demon level difficulties
+
+easy_demon = "Easy Demon"
+medium_demon = "Medium Demon"
+hard_demon = "Hard Demon"
+insane_demon = "Insane Demon"
+extreme_demon = "Extreme Demon"
+
+[rpc.gamemode]
+
+# these are used to display gamemodes
+
+unknown = "Unknown"
+cube = "Cube"
+ship = "Ship"
+ball = "Ball"
+ufo = "UFO"
+wave = "Wave"
+robot = "Robot"
+spider = "Spider"

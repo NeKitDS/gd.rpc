@@ -2,3 +2,4 @@ include gdrpc.toml
 include requirements.txt
 include README.rst
 include LICENSE
+include showcase.png
