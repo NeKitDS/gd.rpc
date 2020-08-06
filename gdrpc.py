@@ -65,7 +65,13 @@ official = "official"
 editor = "editor"
 saved = "saved"
 online = "online"
+
+[rpc.mode]
+normal = "normal"
+practice = "practice"
 """.lstrip()
+
+GD = "gd"  # do not change
 
 ROOT = Path(__file__).parent.resolve()
 PATH = ROOT / "gdrpc.toml"  # path to config
@@ -181,7 +187,7 @@ async def main_loop() -> None:
         best_normal = memory.get_normal_percent()
         best_practice = memory.get_practice_percent()
 
-        mode = "practice" if memory.is_practice_mode() else "normal"
+        mode = rpc.mode.practice if memory.is_practice_mode() else rpc.mode.normal
 
         gamemode = memory.get_gamemode()
 
@@ -229,7 +235,7 @@ async def main_loop() -> None:
         state=state,
         details=details,
         start=start,
-        large_image="gd",
+        large_image=GD,
         large_text=user_name,
         small_image=small_image,
         small_text=small_text,

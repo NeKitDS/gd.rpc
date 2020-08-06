@@ -24,14 +24,14 @@ state = "{level_name} ({object_count} objects)"
 # - best_normal
 # - best_practice
 # - attempt
-# - mode (normal or practice)
+# - mode (see rpc.mode)
 # - gamemode (see rpc.gamemode)
 # - level_id
 # - level_name
 # - level_creator
 # - level_difficulty (see rpc.difficulty)
 # - level_stars
-# - level_type (official, editor, saved, online)
+# - level_type (see rpc.level_type)
 
 details = "{level_name} ({level_type}) <{gamemode}>"
 state = "by {level_creator} ({mode} {percent}%, best {best_normal}%/{best_practice}%)"
@@ -92,3 +92,10 @@ official = "official"
 editor = "editor"
 saved = "saved"
 online = "online"
+
+[rpc.mode]
+
+# these are used to display current mode
+
+normal = "normal"
+practice = "practice"
