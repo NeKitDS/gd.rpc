@@ -2,7 +2,7 @@ __title__ = "gdrpc"
 __author__ = "NeKitDS"
 __copyright__ = "Copyright 2020 NeKitDS"
 __license__ = "MIT"
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 
 from pathlib import Path
 import time
@@ -58,6 +58,13 @@ ufo = "UFO"
 wave = "Wave"
 robot = "Robot"
 spider = "Spider"
+
+[rpc.level_type]
+null = "null"
+official = "official"
+editor = "editor"
+saved = "saved"
+online = "online"
 """.lstrip()
 
 ROOT = Path(__file__).parent.resolve()
@@ -195,14 +202,6 @@ async def main_loop() -> None:
             is_featured = level.is_featured()
             is_epic = level.is_epic()
 
-            level_type = "official"
-
-        elif level_type is gd.api.LevelType.EDITOR:
-            level_type = "editor"
-
-        else:
-            level_type = "online"
-
         format_map = dict(
             user_name=user_name,
             percent=percent,
@@ -211,12 +210,12 @@ async def main_loop() -> None:
             attempt=attempt,
             mode=mode,
             gamemode=rpc.gamemode.get(gamemode.name.lower()),
+            level_type=rpc.level_type.get(level_type.name.lower()),
             level_id=level_id,
             level_name=level_name,
             level_creator=level_creator,
             level_difficulty=rpc.difficulty.get(level_difficulty.name.lower()),
             level_stars=level_stars,
-            level_type=level_type,
         )
 
         details = rpc.level.details.format_map(format_map)

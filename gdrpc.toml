@@ -82,3 +82,13 @@ ufo = "UFO"
 wave = "Wave"
 robot = "Robot"
 spider = "Spider"
+
+[rpc.level_type]
+
+# these are used to display level types
+
+null = "null"
+official = "official"
+editor = "editor"
+saved = "saved"
+online = "online"
