@@ -15,6 +15,7 @@ import toml  # type: ignore  # no stubs or types
 # default config to use if we can not find config file
 DEFAULT_TOML = """
 [rpc]
+process_name = "GeometryDash"
 refresh_rate = 1
 client_id = 704721375050334300
 
@@ -102,7 +103,7 @@ def load_config() -> NamedDict:
 rpc = load_config()
 start = get_timestamp()
 
-memory = gd.memory.get_memory(load=False)
+memory = gd.memory.get_memory(rpc.process_name, load=False)
 
 presence = pypresence.AioPresence(str(rpc.client_id))
 
