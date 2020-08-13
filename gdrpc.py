@@ -39,6 +39,8 @@ official_levels = "Selecting official level"
 official_level = "Playing official level"
 
 [rpc.difficulty]
+unknown = "Unknown"
+auto = "Auto"
 easy = "Easy"
 normal = "Normal"
 hard = "Hard"

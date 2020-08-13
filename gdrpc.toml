@@ -56,6 +56,7 @@ official_level = "Playing official level"
 # these are used to display level difficulties
 
 unknown = "Unknown"
+auto = "Auto"
 easy = "Easy"
 normal = "Normal"
 hard = "Hard"
