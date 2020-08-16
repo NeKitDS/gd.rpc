@@ -38,6 +38,8 @@ details = "{level_name} ({level_type}) <{gamemode}>"
 state = "by {level_creator} ({mode} {percent}%, best {best_normal}%/{best_practice}%)"
 small_text = "{level_stars}* {level_difficulty} (ID: {level_id})"
 
+percent_precision = 1  # decimal places for percentage displaying
+
 [rpc.scene]
 
 # these are used when you are not editing/playing anything
@@ -55,7 +57,7 @@ official_level = "Playing official level"
 
 # these are used to display level difficulties
 
-unknown = "Unknown"
+na = "N/A"
 auto = "Auto"
 easy = "Easy"
 normal = "Normal"

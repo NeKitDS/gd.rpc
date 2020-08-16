@@ -27,6 +27,7 @@ state = "{level_name} ({object_count} objects)"
 details = "{level_name} ({level_type}) <{gamemode}>"
 state = "by {level_creator} ({mode} {percent}%, best {best_normal}%/{best_practice}%)"
 small_text = "{level_stars}* {level_difficulty} (ID: {level_id})"
+percent_precision = 1
 
 [rpc.scene]
 main = "Idle"
@@ -39,7 +40,7 @@ official_levels = "Selecting official level"
 official_level = "Playing official level"
 
 [rpc.difficulty]
-unknown = "Unknown"
+na = "N/A"
 auto = "Auto"
 easy = "Easy"
 normal = "Normal"
@@ -185,7 +186,7 @@ async def main_loop() -> None:
 
     else:  # if playing some level
 
-        percent = memory.get_percent()
+        percent = round(memory.get_percent(), rpc.level.percent_precision)
         attempt = memory.get_attempt()
         best_normal = memory.get_normal_percent()
         best_practice = memory.get_practice_percent()
@@ -210,6 +211,9 @@ async def main_loop() -> None:
             level_creator = level.creator.name
             is_featured = level.is_featured()
             is_epic = level.is_epic()
+
+        elif level_type is gd.api.LevelType.EDITOR:
+            level_difficulty = gd.LevelDifficulty.UNKNOWN
 
         format_map = dict(
             user_name=user_name,
