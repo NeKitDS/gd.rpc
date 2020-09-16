@@ -1,4 +1,4 @@
-__title__ = "gdrpc"
+__title__ = "rpc"
 __author__ = "NeKitDS"
 __copyright__ = "Copyright 2020 NeKitDS"
 __license__ = "MIT"
