@@ -34,8 +34,8 @@ gd.rpc is a library that implements GD Discord RPC in Python.
 Config
 ------
 
-The config file, ``gdrpc.toml`` is located in the same directory as ``gdrpc.py`` or ``gdrpc.exe`` file.
-It is created automatically on first run. For more details on how to configurate, there is a ``gdrpc.toml`` file located in the root of this repository that gives more information on arguments.
+The config file, ``rpc_config.toml`` is located in the same directory as ``gd/rpc.py`` or ``rpc.exe`` file.
+It is created automatically on first run. For more details on how to configurate, there is a ``rpc_config.toml`` file located in the root of this repository that gives more information on arguments.
 
 Installing
 ----------
@@ -66,14 +66,15 @@ You can either invoke it from python:
 
 .. code:: python3
 
-    import gdrpc
-    gdrpc.run()
+    import gd.rpc
+
+    gd.rpc.run()
 
 Or run a console command:
 
 .. code:: sh
 
-    $ python -m gdrpc
+    $ python -m gd.rpc
 
     # OR
 
@@ -82,11 +83,11 @@ Or run a console command:
 Building
 --------
 
-You can build an executable file from the ``gdrpc.py`` file using *pyinstaller*:
+You can build an executable file from the ``gd/rpc.py`` file using *PyInstaller*:
 
 .. code:: sh
 
-    $ pyinstaller --onefile --exclude-module PIL --exclude-module numpy --exclude-module IPython --exclude-module Crypto --exclude-module lxml --icon=gdrpc.ico gdrpc.py
+    $ pyinstaller --onefile --exclude-module PIL --exclude-module numpy --exclude-module IPython --exclude-module Crypto --exclude-module lxml --icon=icon.ico gd/rpc.py
 
 Generated executable will be in ``./dist`` folder.
 

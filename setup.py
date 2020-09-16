@@ -9,10 +9,10 @@ requirements = (
     (root / "requirements.txt").read_text("utf-8").strip().splitlines()
 )
 
-init = (root / "gdrpc.py").read_text("utf-8")
+text = (root / "gd" / "rpc.py").read_text("utf-8")
 
 result = re.search(
-    r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', init, re.MULTILINE
+    r"^__version__\s*=\s*[\"']([^\"']*)[\"']", text, re.MULTILINE
 )
 
 if result is None:
@@ -32,7 +32,7 @@ setup(
         "Issue tracker": "https://github.com/NeKitDS/gd.rpc/issues",
     },
     version=version,
-    py_modules=["gdrpc"],
+    packages=["gd"],
     license="MIT",
     description="Geometry Dash Discord Rich Presence",
     long_description=readme,
@@ -46,8 +46,9 @@ setup(
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
         "Natural Language :: English",
         "Operating System :: Microsoft :: Windows",
     ],
-    entry_points={"console_scripts": ["gd.rpc = gdrpc:run"]},
+    entry_points={"console_scripts": ["gd.rpc = gd.rpc:run"]},
 )
