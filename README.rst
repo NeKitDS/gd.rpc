@@ -14,7 +14,7 @@ gd.rpc
     :alt: Required Python Versions
 
 .. image:: https://img.shields.io/pypi/status/gd.rpc.svg
-    :target: https://github.com/NeKitDS/gd.rpc
+    :target: https://github.com/nekitdev/gd.rpc
     :alt: Project Development Status
 
 .. image:: https://img.shields.io/pypi/dm/gd.rpc.svg
@@ -53,7 +53,7 @@ In order to install the library from source, you can do the following:
 
 .. code:: sh
 
-    $ git clone https://github.com/NeKitDS/gd.rpc
+    $ git clone https://github.com/nekitdev/gd.rpc
     $ cd gd.rpc
     $ python -m pip install -U .
 
@@ -94,4 +94,4 @@ Generated executable will be in ``./dist`` folder.
 Authors
 -------
 
-This project is mainly developed by `NeKitDS <https://github.com/NeKitDS>`_.
+This project is mainly developed by `nekitdev <https://github.com/nekitdev>`_.

@@ -1,8 +1,8 @@
 __title__ = "rpc"
-__author__ = "NeKitDS"
-__copyright__ = "Copyright 2020 NeKitDS"
+__author__ = "nekitdev"
+__copyright__ = "Copyright 2020 nekitdev"
 __license__ = "MIT"
-__version__ = "0.6.0"
+__version__ = "0.6.1"
 
 from pathlib import Path
 import time

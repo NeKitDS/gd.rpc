@@ -25,11 +25,11 @@ readme = (root / "README.rst").read_text("utf-8")
 
 setup(
     name="gd.rpc",
-    author="NeKitDS",
+    author="nekitdev",
     author_email="gdpy13@gmail.com",
-    url="https://github.com/NeKitDS/gd.rpc",
+    url="https://github.com/nekitdev/gd.rpc",
     project_urls={
-        "Issue tracker": "https://github.com/NeKitDS/gd.rpc/issues",
+        "Issue tracker": "https://github.com/nekitdev/gd.rpc/issues",
     },
     version=version,
     packages=["gd"],
