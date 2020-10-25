@@ -2,20 +2,21 @@ __title__ = "rpc"
 __author__ = "nekitdev"
 __copyright__ = "Copyright 2020 nekitdev"
 __license__ = "MIT"
-__version__ = "0.6.1"
+__version__ = "1.0.0rc0"
 
 from pathlib import Path
 import time
-from typing import Any, Optional, Union
+from typing import Optional, Union
 
-import gd  # type: ignore  # no stubs or types
+from gd.json import NamedDict
+import gd
 import pypresence  # type: ignore  # no stubs or types
 import toml  # type: ignore  # no stubs or types
 
 # default config to use if we can not find config file
 DEFAULT_TOML = """
 [rpc]
-process_name = "GeometryDash"
+process_name = "default"
 refresh_rate = 1
 client_id = 704721375050334300
 
@@ -91,10 +92,8 @@ def get_timestamp() -> int:
     return int(time.time())
 
 
-class NamedDict(dict):
-    def __getattr__(self, name: str) -> Any:
-        """Same as self[name]."""
-        return self[name]
+def is_soft_dunder(string: str) -> bool:
+    return string.startswith("__") and string.endswith("__")
 
 
 def load_config() -> NamedDict:
@@ -104,9 +103,14 @@ def load_config() -> NamedDict:
 
 
 rpc = load_config()
-start = get_timestamp()
 
-memory = gd.memory.get_memory(rpc.process_name, load=False)
+if rpc.process_name == "default":
+    memory_state = gd.memory.get_state(load=False)
+
+else:
+    memory_state = gd.memory.get_state(rpc.process_name, load=False)
+
+start = get_timestamp()
 
 presence = pypresence.AioPresence(str(rpc.client_id))
 
@@ -135,9 +139,9 @@ async def main_loop() -> None:
     global start
 
     try:
-        memory.reload()  # attempt to reload memory
+        memory_state.reload()  # attempt to reload memory
 
-    except RuntimeError:  # on fail
+    except LookupError:  # can not find
         start = get_timestamp()  # restart time
         await presence.clear()  # clear presence state
 
@@ -145,6 +149,7 @@ async def main_loop() -> None:
 
     try:
         rpc = load_config()  # try to load config
+
     except toml.TomlDecodeError:
         pass  # do nothing on fail
 
@@ -152,68 +157,74 @@ async def main_loop() -> None:
     details: Optional[str]
     state: Optional[str]
 
-    user_name = memory.get_user_name()  # get user name
+    account_manager = memory_state.get_account_manager()
+
+    user_name = account_manager.get_user_name()  # get user name
 
     if not user_name:  # set default if not found
         user_name = "Player"
 
-    scene = memory.get_scene()
-    level_type = memory.get_level_type()
+    game_manager = memory_state.get_game_manager()
 
-    if level_type is gd.api.LevelType.NULL:  # if not playing any levels
+    editor_layer = game_manager.get_editor_layer()
+    play_layer = game_manager.get_play_layer()
 
-        if memory.is_in_editor():
+    player = play_layer.get_player()
+    level = play_layer.get_level_settings().get_level()
 
-            object_count = memory.get_object_count()
-            level_name = memory.get_editor_level_name()
+    if level.is_null():  # if not playing any levels
+        if editor_layer.is_null():
+            scene = game_manager.get_scene()
+
+            details = rpc.scene.get(scene.name.lower())
+            state = None
+
+        else:
+            editor_level = editor_layer.get_level_settings().get_level()
 
             format_map = dict(
-                object_count=object_count,
-                level_name=level_name,
+                object_count=editor_layer.get_object_count(),
+                level_name=editor_level.get_name(),
                 user_name=user_name,
             )
 
             details = rpc.editor.details.format_map(format_map)
             state = rpc.editor.state.format_map(format_map)
 
-        else:
-
-            details = rpc.scene.get(scene.name.lower())
-            state = None
-
         small_image = None
         small_text = None
 
     else:  # if playing some level
 
-        percent = round(memory.get_percent(), rpc.level.percent_precision)
-        attempt = memory.get_attempt()
-        best_normal = memory.get_normal_percent()
-        best_practice = memory.get_practice_percent()
+        percent = round(play_layer.get_percent(), rpc.level.percent_precision)
+        attempt = play_layer.get_attempt()
+        best_normal = level.get_normal_percent()
+        best_practice = level.get_practice_percent()
 
-        mode = rpc.mode.practice if memory.is_practice_mode() else rpc.mode.normal
+        mode = rpc.mode.practice if play_layer.is_practice_mode() else rpc.mode.normal
 
-        gamemode = memory.get_gamemode()
+        gamemode = player.get_gamemode()
 
-        level_id = memory.get_level_id()
-        level_name = memory.get_level_name()
-        level_creator = memory.get_level_creator()
-        level_difficulty = memory.get_level_difficulty()
-        level_stars = memory.get_level_stars()
+        level_id = level.get_id()
+        level_name = level.get_name()
+        level_creator = level.get_creator_name()
+        level_difficulty = level.get_difficulty()
+        level_stars = level.get_stars()
+        level_type = level.get_level_type()
 
-        is_featured = memory.is_level_featured()
-        is_epic = memory.is_level_epic()
+        is_featured = level.is_featured()
+        is_epic = level.is_epic()
 
-        if level_type is gd.api.LevelType.OFFICIAL:
-            level = gd.Level.official(level_id, get_data=False)
+        if level_type is gd.LevelType.OFFICIAL:
+            gd_level = gd.Level.official(level_id, get_data=False)
 
-            level_difficulty = level.difficulty
-            level_creator = level.creator.name
-            is_featured = level.is_featured()
-            is_epic = level.is_epic()
+            level_difficulty = gd_level.difficulty
+            level_creator = gd_level.creator.name
+            is_featured = gd_level.is_featured()
+            is_epic = gd_level.is_epic()
 
-        elif level_type is gd.api.LevelType.EDITOR:
-            level_difficulty = gd.LevelDifficulty.UNKNOWN
+        elif level_type is gd.LevelType.EDITOR:
+            level_difficulty = gd.LevelDifficulty.NA  # type: ignore
 
         format_map = dict(
             user_name=user_name,
@@ -238,7 +249,7 @@ async def main_loop() -> None:
         small_text = rpc.level.small_text.format_map(format_map)
 
     await presence.update(
-        pid=memory.process_id,
+        pid=memory_state.process_id,
         state=state,
         details=details,
         start=start,

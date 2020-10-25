@@ -2,7 +2,7 @@
 
 # general RPC setup
 
-process_name = "GeometryDash"
+process_name = "default"
 refresh_rate = 1  # seconds between presence refreshing
 client_id = 704721375050334300  # client ID, change only if you are using your own version
 
