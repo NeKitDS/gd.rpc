@@ -25,7 +25,7 @@ details = "Editing level"
 state = "{level_name} ({object_count} objects)"
 
 [rpc.level]
-details = "{level_name} ({level_type}) <{gamemode}>"
+details = "{level_name} ({level_type}) <{gamemode}> [attempt {attempt}]"
 state = "by {level_creator} ({mode} {percent}%, best {best_normal}%/{best_practice}%)"
 small_text = "{level_stars}* {level_difficulty} (ID: {level_id})"
 percent_precision = 1
