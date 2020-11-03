@@ -2,7 +2,7 @@ __title__ = "rpc"
 __author__ = "nekitdev"
 __copyright__ = "Copyright 2020 nekitdev"
 __license__ = "MIT"
-__version__ = "1.0.0rc0"
+__version__ = "1.0.0rc1"
 
 from pathlib import Path
 import time
